@@ -91,7 +91,6 @@ export default function TodoList() {
           type="text"
           value={newTodo}
           onChange={updateTodoValue}
-          required
         />
         <br />
         <br />
