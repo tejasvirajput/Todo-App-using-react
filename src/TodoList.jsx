@@ -8,6 +8,7 @@ export default function TodoList() {
   let [newTodo, setNewTodo] = useState([""]);
 
   let addNewTask = () => {
+    if (!newTodo.trim()) return;
     setTodos((preTodos) => {
       return [...preTodos, { task: newTodo, id: uuidv4(), isDone: false }];
     });
@@ -19,7 +20,11 @@ export default function TodoList() {
   };
 
   let deleteTodo = (id) => {
-    setTodos((preTodos) => todos.filter((preTodos) => preTodos.id != id));
+    setTodos((preTodos) => preTodos.filter((todo) => todo.id != id));
+  };
+
+  let deleteAllTodo = () => {
+    setTodos((preTodos) => preTodos.filter((todo) => (todo = "")));
   };
 
   let upperCaseAll = () => {
@@ -74,18 +79,26 @@ export default function TodoList() {
     );
   };
 
+  let handleSubmit = (evt) => {
+    evt.preventDefault();
+  };
+
   return (
     <div>
-      <input
-        placeholder="Enter a new task..."
-        value={newTodo}
-        onChange={updateTodoValue}
-      />
-      <br />
-      <br />
-      <button onClick={addNewTask} className="add">
-        Add Task
-      </button>
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder="Enter a new task..."
+          type="text"
+          value={newTodo}
+          onChange={updateTodoValue}
+          required
+        />
+        <br />
+        <br />
+        <button onClick={addNewTask} className="add" type="submit">
+          Add Task
+        </button>
+      </form>
       <br />
       <br />
       <hr />
@@ -127,6 +140,10 @@ export default function TodoList() {
       &nbsp; &nbsp; &nbsp;
       <button onClick={markAsDoneAll} className="utility done-btn">
         Mark as Done All
+      </button>
+      &nbsp; &nbsp; &nbsp;
+      <button onClick={deleteAllTodo} className="utility delete">
+        Delete All
       </button>
     </div>
   );
